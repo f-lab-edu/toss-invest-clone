@@ -7,9 +7,15 @@
 
 ## 🛠 기술 스택
 
-- **Frontend:** React, Vite
-- **Test:** Vitest
-- **Language:** TypeScript, JavaScript (ES6+)
+**Frontend**: React, Vite, TypeScript, Jotai
+
+**UI**: Tailwind CSS, shadcn/ui
+
+**Backend**: Supabase
+
+**Test**: Vitest
+
+**Chart**: TradingView Lightweight Charts ,Recharts
 
 <br>
 
