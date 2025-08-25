@@ -2,7 +2,7 @@ const REST = Deno.env.get("KIS_REST_BASE")!;
 const APP  = Deno.env.get("KIS_APP_KEY")!;
 const SEC  = Deno.env.get("KIS_APP_SECRET")!;
 
-function j(data: unknown, status = 200) {
+function jsonResponse(data: unknown, status = 200) {
     return new Response(JSON.stringify(data), {
         status,
         headers: {
@@ -12,7 +12,7 @@ function j(data: unknown, status = 200) {
     });
 }
 function bad(message: string, status = 400, details?: unknown) {
-    return j({ ok: false, error: { message, details } }, status);
+    return jsonResponse({ ok: false, error: { message, details } }, status);
 }
 
 async function postAuthAccessTokenP(): Promise<string> {
