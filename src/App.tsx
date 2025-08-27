@@ -1,5 +1,5 @@
 import "./App.css";
-import MainLayout from "@/layouts/MainLayout.tsx";
+import MainLayout from "@/layouts/MainLayout";
 
 function App() {
   return (

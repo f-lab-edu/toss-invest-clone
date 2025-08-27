@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import {type FC, useEffect, useRef} from "react";
 import { createChart, AreaSeries, CandlestickSeries } from "lightweight-charts";
 
-export default function TestChart() {
+const TestChart: FC = () => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         if (!containerRef.current) return;
@@ -59,3 +59,5 @@ export default function TestChart() {
         />
     );
 }
+
+export default TestChart;

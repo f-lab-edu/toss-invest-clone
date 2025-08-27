@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button";
-import {useState} from "react";
+import {type FC, useState} from "react";
 
-export default function Header() {
+const Header: FC = () => {
     const [isLogin] = useState(false);
 
     return (
@@ -27,3 +27,5 @@ export default function Header() {
         </header>
     )
 }
+
+export default Header;
