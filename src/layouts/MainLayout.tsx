@@ -9,11 +9,11 @@ type LayoutProps = {
 const MainLayout: FC<LayoutProps> = ({ children }) => {
     return (
         <div className="flex">
-            <div className="flex w-full min-w-0 flex-1">
+            <div className="flex flex-col w-full min-w-0 flex-1">
                 <Header></Header>
+                <main>{children}</main>
             </div>
             <SideBar></SideBar>
-            <main>{children}</main>
         </div>
     );
 };
