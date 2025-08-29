@@ -1,26 +1,25 @@
 import AuthCard from "@/components/auth/AuthCard.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { type FC, useState } from "react";
+import { type FC } from "react";
 import { Button } from "@/components/ui/button.tsx";
 
 type EmailCodeStepProps = {
-  onChangeStep: () => void;
+  email: string;
+  verifyCode: string;
+  isCodeSent: boolean;
+  onChangeEmail: (v: string) => void; // ✅ 변경 콜백
+  onChangeVerifyCode: (v: string) => void;
+  handleVerificationAction: () => void;
 };
 
-const EmailCodeStep: FC<EmailCodeStepProps> = ({ onChangeStep }) => {
-  const [isCodeSent, setIsCodeSent] = useState(false);
-  const [email, setEmail] = useState("");
-  const [verifyCode, setVerifyCode] = useState("");
-  const handleVerificationAction = () => {
-    if (!isCodeSent) {
-      // TODO: 이메일로 인증코드 발송 API
-      setIsCodeSent(true);
-    } else {
-      // TODO: 인증번호 검증 API
-      onChangeStep();
-    }
-  };
-
+const EmailCodeStep: FC<EmailCodeStepProps> = ({
+  email,
+  verifyCode,
+  onChangeEmail,
+  onChangeVerifyCode,
+  isCodeSent,
+  handleVerificationAction,
+}) => {
   const footer = (
     <Button
       className="w-full h-10"
@@ -41,7 +40,7 @@ const EmailCodeStep: FC<EmailCodeStepProps> = ({ onChangeStep }) => {
             placeholder="이메일"
             autoComplete="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => onChangeEmail(e.target.value)}
             required
           />
           {isCodeSent && (
@@ -51,7 +50,7 @@ const EmailCodeStep: FC<EmailCodeStepProps> = ({ onChangeStep }) => {
               autoComplete="one-time-code"
               placeholder="인증번호"
               value={verifyCode}
-              onChange={(e) => setVerifyCode(e.target.value)}
+              onChange={(e) => onChangeVerifyCode(e.target.value)}
             />
           )}
         </div>
