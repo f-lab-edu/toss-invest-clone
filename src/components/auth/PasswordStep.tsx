@@ -22,6 +22,13 @@ const PasswordStep: FC<PasswordStepProps> = ({
   const isMatch = password === passwordConfirm && passwordConfirm.length > 0;
   const canSubmit = isLengthOk && isMatch;
 
+  const errorMessage =
+    password.length > 0 && !isLengthOk
+      ? "비밀번호는 최소 8자 이상이어야 합니다."
+      : passwordConfirm.length > 0 && !isMatch
+        ? "비밀번호가 일치하지 않습니다."
+        : "";
+
   const footer = (
     <Button
       className="w-full h-10"
@@ -33,7 +40,7 @@ const PasswordStep: FC<PasswordStepProps> = ({
   );
 
   return (
-    <AuthCard footer={footer}>
+    <AuthCard footer={footer} errorMessage={errorMessage}>
       <form>
         <div className="flex flex-col gap-2">
           <Input
@@ -54,16 +61,6 @@ const PasswordStep: FC<PasswordStepProps> = ({
             value={passwordConfirm}
             onChange={(e) => onChangePasswordConfirm(e.target.value)}
           />
-          {!isLengthOk && password.length > 0 && (
-            <p className="text-xs text-red-500">
-              비밀번호는 최소 8자 이상이어야 합니다.
-            </p>
-          )}
-          {!isMatch && passwordConfirm.length > 0 && (
-            <p className="text-xs text-red-500">
-              비밀번호가 일치하지 않습니다.
-            </p>
-          )}
         </div>
       </form>
     </AuthCard>

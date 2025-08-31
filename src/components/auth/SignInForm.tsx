@@ -2,12 +2,19 @@ import AuthCard from "@/components/auth/AuthCard.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { type FC, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
+import { supabase } from "@/lib/supabaseClient.ts";
 
 const SignInForm: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleSignIn = () => {
-    // TODO: 로그인 API 연동
+  const handleSignIn = async () => {
+    // TODO: 로그인 후 이전페이지로 이동, 사용자 정보 저장
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) console.error(error);
+    console.log(data);
   };
 
   const footer = (

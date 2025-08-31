@@ -7,7 +7,7 @@ type EmailCodeStepProps = {
   email: string;
   verifyCode: string;
   isCodeSent: boolean;
-  onChangeEmail: (v: string) => void; // ✅ 변경 콜백
+  onChangeEmail: (v: string) => void;
   onChangeVerifyCode: (v: string) => void;
   handleVerificationAction: () => void;
 };
@@ -15,9 +15,9 @@ type EmailCodeStepProps = {
 const EmailCodeStep: FC<EmailCodeStepProps> = ({
   email,
   verifyCode,
+  isCodeSent,
   onChangeEmail,
   onChangeVerifyCode,
-  isCodeSent,
   handleVerificationAction,
 }) => {
   const footer = (

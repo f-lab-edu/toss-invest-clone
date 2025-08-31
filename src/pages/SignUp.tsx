@@ -12,10 +12,14 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
+  const postSignUp = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.updateUser({ email, password });
+    if (error) return console.error(error);
+    return data;
+  };
+
   const signInWithOtp = async (email: string) => {
-    const { data, error } = await supabase.auth.signInWithOtp({
-      email,
-    });
+    const { data, error } = await supabase.auth.signInWithOtp({ email });
     if (error) return console.error(error);
     return data;
   };
@@ -30,8 +34,10 @@ function SignUp() {
     return data;
   };
 
-  const handleSignUpAction = () => {
-    // TODO: 회원가입 API 연동
+  const handleSignUpAction = async () => {
+    // TODO: 회원가입을 하면 이전페이지로 이동하고 전체 로그인 상태로 변경
+    const result = await postSignUp(email, password);
+    console.log(result);
   };
 
   const handleVerificationAction = async () => {
