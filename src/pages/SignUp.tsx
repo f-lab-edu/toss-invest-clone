@@ -4,9 +4,11 @@ import EmailCodeStep from "@/components/auth/EmailCodeStep.tsx";
 import PasswordStep from "@/components/auth/PasswordStep.tsx";
 import { supabase } from "@/lib/supabaseClient.ts";
 import { useNavigate, useSearchParams } from "react-router";
+import { useAuth } from "@/hooks/useAuth.ts";
 
 function SignUp() {
   const navigate = useNavigate();
+  const { signUp } = useAuth();
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
   const [isVerified, setIsVerified] = useState(false);
@@ -16,12 +18,6 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const postSignUp = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.updateUser({ email, password });
-    if (error) return console.error(error);
-    return data;
-  };
 
   const signInWithOtp = async (email: string) => {
     const { data, error } = await supabase.auth.signInWithOtp({ email });
@@ -56,10 +52,14 @@ function SignUp() {
   };
 
   const handleSignUpAction = async () => {
-    // TODO: 전체 로그인 상태로 변경
-    const result = await postSignUp(email, password);
-    console.log(result);
-    return navigate(redirect, { replace: true });
+    setErrorMessage("");
+    const result = await signUp({ email, password });
+
+    if (result.success) {
+      return navigate(redirect, { replace: true });
+    } else {
+      setErrorMessage("회원가입이 실패했습니다.");
+    }
   };
 
   const handleVerificationAction = async () => {

@@ -2,9 +2,10 @@ import AuthLayout from "@/layouts/AuthLayout.tsx";
 import { NavLink, useNavigate, useSearchParams } from "react-router";
 import SignInForm from "@/components/auth/SignInForm.tsx";
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient.ts";
+import { useAuth } from "@/hooks/useAuth.ts";
 
 function SignIn() {
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
@@ -14,17 +15,14 @@ function SignIn() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignIn = async () => {
-    // TODO: 사용자 정보 저장
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      setErrorMessage("잘못된 정보를 입력하셨습니다.");
-      return;
+    setErrorMessage("");
+    const result = await signIn({ email, password });
+
+    if (result.success) {
+      navigate(redirect || "/", { replace: true });
+    } else {
+      setErrorMessage("잘못된 정보를 입력했습니다.");
     }
-    console.log(data);
-    return navigate(redirect, { replace: true });
   };
 
   const onChangeEmail = (email: string) => {
