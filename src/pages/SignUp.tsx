@@ -3,8 +3,12 @@ import { useState } from "react";
 import EmailCodeStep from "@/components/auth/EmailCodeStep.tsx";
 import PasswordStep from "@/components/auth/PasswordStep.tsx";
 import { supabase } from "@/lib/supabaseClient.ts";
+import { useNavigate, useSearchParams } from "react-router";
 
 function SignUp() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
   const [isVerified, setIsVerified] = useState(false);
   const [email, setEmail] = useState("");
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -41,20 +45,21 @@ function SignUp() {
     return data;
   };
 
-  const onChangeEmail = (value: string) => {
-    setEmail(value);
+  const onChangeEmail = (email: string) => {
+    setEmail(email);
     if (errorMessage) setErrorMessage(""); // 에러 메시지 초기화
   };
 
-  const onChangeVerifyCode = (value: string) => {
-    setVerifyCode(value);
+  const onChangeVerifyCode = (verifyCode: string) => {
+    setVerifyCode(verifyCode);
     if (errorMessage) setErrorMessage("");
   };
 
   const handleSignUpAction = async () => {
-    // TODO: 회원가입을 하면 이전페이지로 이동하고 전체 로그인 상태로 변경
+    // TODO: 전체 로그인 상태로 변경
     const result = await postSignUp(email, password);
     console.log(result);
+    return navigate(redirect, { replace: true });
   };
 
   const handleVerificationAction = async () => {

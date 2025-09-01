@@ -1,22 +1,25 @@
 import AuthCard from "@/components/auth/AuthCard.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { type FC, useState } from "react";
+import { type FC } from "react";
 import { Button } from "@/components/ui/button.tsx";
-import { supabase } from "@/lib/supabaseClient.ts";
 
-const SignInForm: FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const handleSignIn = async () => {
-    // TODO: 로그인 후 이전페이지로 이동, 사용자 정보 저장
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) console.error(error);
-    console.log(data);
-  };
+type SignInFormProps = {
+  email: string;
+  password: string;
+  onChangeEmail: (email: string) => void;
+  onChangePassword: (password: string) => void;
+  handleSignIn: () => void;
+  errorMessage: string;
+};
 
+const SignInForm: FC<SignInFormProps> = ({
+  email,
+  password,
+  onChangeEmail,
+  onChangePassword,
+  handleSignIn,
+  errorMessage,
+}) => {
   const footer = (
     <Button className="w-full h-10" onClick={handleSignIn}>
       로그인
@@ -24,7 +27,7 @@ const SignInForm: FC = () => {
   );
 
   return (
-    <AuthCard footer={footer}>
+    <AuthCard footer={footer} errorMessage={errorMessage}>
       <form>
         <div className="flex flex-col gap-2">
           <Input
@@ -33,7 +36,7 @@ const SignInForm: FC = () => {
             placeholder="이메일"
             autoComplete="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => onChangeEmail(e.target.value)}
             required
           />
           <Input
@@ -42,7 +45,7 @@ const SignInForm: FC = () => {
             placeholder="비밀번호"
             autoComplete="current-password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => onChangePassword(e.target.value)}
             required
           />
         </div>
