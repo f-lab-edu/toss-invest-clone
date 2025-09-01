@@ -11,6 +11,7 @@ function SignUp() {
   const [verifyCode, setVerifyCode] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const postSignUp = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.updateUser({ email, password });
@@ -20,7 +21,10 @@ function SignUp() {
 
   const signInWithOtp = async (email: string) => {
     const { data, error } = await supabase.auth.signInWithOtp({ email });
-    if (error) return console.error(error);
+    if (error) {
+      console.error(error);
+      return;
+    }
     return data;
   };
 
@@ -30,8 +34,21 @@ function SignUp() {
       token,
       type: "email",
     });
-    if (error) return console.error(error);
+    if (error) {
+      setErrorMessage("인증번호가 틀렸습니다.");
+      return;
+    }
     return data;
+  };
+
+  const onChangeEmail = (value: string) => {
+    setEmail(value);
+    if (errorMessage) setErrorMessage(""); // 에러 메시지 초기화
+  };
+
+  const onChangeVerifyCode = (value: string) => {
+    setVerifyCode(value);
+    if (errorMessage) setErrorMessage("");
   };
 
   const handleSignUpAction = async () => {
@@ -62,9 +79,10 @@ function SignUp() {
               email={email}
               verifyCode={verifyCode}
               isCodeSent={isCodeSent}
-              onChangeEmail={setEmail}
-              onChangeVerifyCode={setVerifyCode}
+              onChangeEmail={onChangeEmail}
+              onChangeVerifyCode={onChangeVerifyCode}
               handleVerificationAction={handleVerificationAction}
+              errorMessage={errorMessage}
             />
           ) : (
             <PasswordStep

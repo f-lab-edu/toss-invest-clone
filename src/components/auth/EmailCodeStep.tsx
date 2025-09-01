@@ -10,6 +10,7 @@ type EmailCodeStepProps = {
   onChangeEmail: (v: string) => void;
   onChangeVerifyCode: (v: string) => void;
   handleVerificationAction: () => void;
+  errorMessage: string;
 };
 
 const EmailCodeStep: FC<EmailCodeStepProps> = ({
@@ -19,6 +20,7 @@ const EmailCodeStep: FC<EmailCodeStepProps> = ({
   onChangeEmail,
   onChangeVerifyCode,
   handleVerificationAction,
+  errorMessage,
 }) => {
   const footer = (
     <Button
@@ -31,7 +33,7 @@ const EmailCodeStep: FC<EmailCodeStepProps> = ({
   );
 
   return (
-    <AuthCard footer={footer}>
+    <AuthCard footer={footer} errorMessage={errorMessage}>
       <form>
         <div className="flex flex-col gap-2">
           <Input
@@ -49,6 +51,7 @@ const EmailCodeStep: FC<EmailCodeStepProps> = ({
               type="text"
               autoComplete="one-time-code"
               placeholder="인증번호"
+              maxLength={6}
               value={verifyCode}
               onChange={(e) => onChangeVerifyCode(e.target.value)}
             />
