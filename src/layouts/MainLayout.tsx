@@ -1,17 +1,16 @@
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 import Header from "@/components/header/Header.tsx";
 import SideBar from "@/components/common/SideBar";
+import { Outlet } from "react-router";
 
-type LayoutProps = {
-  children: ReactNode;
-};
-
-const MainLayout: FC<LayoutProps> = ({ children }) => {
+const MainLayout: FC = () => {
   return (
     <div className="flex">
       <div className="flex flex-col w-full min-w-0 flex-1">
         <Header />
-        <main>{children}</main>
+        <main>
+          <Outlet />
+        </main>
       </div>
       <SideBar />
     </div>
