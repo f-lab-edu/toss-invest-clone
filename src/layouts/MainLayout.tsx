@@ -6,7 +6,7 @@ import { Outlet } from "react-router";
 const MainLayout: FC = () => {
   return (
     <div className="flex">
-      <div className="flex flex-col w-full min-w-0 flex-1">
+      <div className="flex flex-col max-w-[1856px] min-w-0 flex-1">
         <Header />
         <main>
           <Outlet />
