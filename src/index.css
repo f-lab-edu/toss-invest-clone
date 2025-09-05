@@ -1,11 +1,12 @@
-
 @import "tw-animate-css";
+@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
-@tailwind utilities;
-
 @theme inline {
+  --font-sans: "Pretendard Variable", Pretendard, system-ui, -apple-system,
+  "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo",
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -41,6 +42,51 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-white: #ffffff;
+  --color-grey-opacity-50: rgba(0, 23, 51, 0.02);
+  --color-grey-opacity-100: rgba(2, 32, 71, 0.05);
+  --color-grey-opacity-200: rgba(0, 27, 55, 0.1);
+  --color-grey-opacity-300: rgba(0, 29, 58, 0.18);
+  --color-grey-opacity-400: rgba(0, 25, 54, 0.31);
+  --color-grey-opacity-500: rgba(3, 24, 50, 0.46);
+  --color-grey-opacity-600: rgba(0, 19, 43, 0.58);
+  --color-grey-opacity-700: rgba(3, 18, 40, 0.7);
+  --color-grey-opacity-800: rgba(0, 12, 30, 0.8);
+  --color-grey-opacity-900: rgba(2, 9, 19, 0.91);
+
+  --color-grey-50: #f9fafb;
+  --color-grey-100: #f2f4f6;
+  --color-grey-200: #e5e8eb;
+  --color-grey-300: #d1d6db;
+  --color-grey-400: #b0b8c1;
+  --color-grey-500: #8b95a1;
+  --color-grey-600: #6b7684;
+  --color-grey-700: #4e5968;
+  --color-grey-800: #333d4b;
+  --color-grey-900: #191f28;
+
+  --color-blue-50: #e8f3ff;
+  --color-blue-100: #c9e2ff;
+  --color-blue-200: #90c2ff;
+  --color-blue-300: #64a8ff;
+  --color-blue-400: #4593fc;
+  --color-blue-500: #3182f6;
+  --color-blue-600: #2272eb;
+  --color-blue-700: #1b64da;
+  --color-blue-800: #1957c2;
+  --color-blue-900: #194aa6;
+
+  --color-red-50: #ffeeee;
+  --color-red-100: #ffd4d6;
+  --color-red-200: #feafb4;
+  --color-red-300: #fb8890;
+  --color-red-400: #f66570;
+  --color-red-500: #f04452;
+  --color-red-600: #e42939;
+  --color-red-700: #d22030;
+  --color-red-800: #bc1b2a;
+  --color-red-900: #a51926;
 }
 
 :root {
@@ -117,7 +163,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
 }
 
