@@ -7,7 +7,7 @@ import {
 } from "@/types/ranking.ts";
 import RankingPeriodTabs from "@/components/ranking/RankingPeriodTabs.tsx";
 import RankingTable from "@/components/ranking/RankingTable.tsx";
-import MyPagination from "@/components/common/MyPagination.tsx";
+import MyPagination from "@/components/pagination/MyPagination.tsx";
 import { useNavigate, useSearchParams } from "react-router";
 
 const RankingPanel: FC = () => {
