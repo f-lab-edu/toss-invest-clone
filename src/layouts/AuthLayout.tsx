@@ -1,15 +1,14 @@
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
+import { Outlet } from "react-router";
 import Header from "@/components/header/Header.tsx";
 
-type LayoutProps = {
-  children: ReactNode;
-};
-
-const AuthLayout: FC<LayoutProps> = ({ children }) => {
+const AuthLayout: FC = () => {
   return (
     <div className="flex flex-col w-full min-w-0 flex-1">
       <Header variant="auth" />
-      <main>{children}</main>
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 };

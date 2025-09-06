@@ -1,12 +1,8 @@
+import { Outlet } from "react-router";
 import "./App.css";
-import MainLayout from "@/layouts/MainLayout";
 
 function App() {
-  return (
-    <MainLayout>
-      <div></div>
-    </MainLayout>
-  );
+  return <Outlet />;
 }
 
 export default App;
