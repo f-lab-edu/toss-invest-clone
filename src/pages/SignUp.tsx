@@ -2,9 +2,75 @@ import AuthLayout from "@/layouts/AuthLayout.tsx";
 import { useState } from "react";
 import EmailCodeStep from "@/components/auth/EmailCodeStep.tsx";
 import PasswordStep from "@/components/auth/PasswordStep.tsx";
+import { supabase } from "@/lib/supabaseClient.ts";
+import { useNavigate, useSearchParams } from "react-router";
+import { useAuth } from "@/hooks/useAuth.ts";
 
 function SignUp() {
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
   const [isVerified, setIsVerified] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [verifyCode, setVerifyCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const signInWithOtp = async (email: string) => {
+    const { data, error } = await supabase.auth.signInWithOtp({ email });
+    if (error) {
+      console.error(error);
+      return;
+    }
+    return data;
+  };
+
+  const verifyOtp = async (email: string, token: string) => {
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: "email",
+    });
+    if (error) {
+      setErrorMessage("인증번호가 틀렸습니다.");
+      return;
+    }
+    return data;
+  };
+
+  const onChangeEmail = (email: string) => {
+    setEmail(email);
+    if (errorMessage) setErrorMessage(""); // 에러 메시지 초기화
+  };
+
+  const onChangeVerifyCode = (verifyCode: string) => {
+    setVerifyCode(verifyCode);
+    if (errorMessage) setErrorMessage("");
+  };
+
+  const handleSignUpAction = async () => {
+    setErrorMessage("");
+    const result = await signUp({ email, password });
+
+    if (result.success) {
+      return navigate(redirect, { replace: true });
+    } else {
+      setErrorMessage("회원가입이 실패했습니다.");
+    }
+  };
+
+  const handleVerificationAction = async () => {
+    if (!isCodeSent) {
+      const result = await signInWithOtp(email);
+      if (result) setIsCodeSent(true);
+    } else {
+      const result = await verifyOtp(email, verifyCode);
+      if (result) setIsVerified(true);
+    }
+  };
 
   return (
     <AuthLayout>
@@ -14,9 +80,23 @@ function SignUp() {
             회원가입
           </h1>
           {!isVerified ? (
-            <EmailCodeStep onChangeStep={() => setIsVerified(true)} />
+            <EmailCodeStep
+              email={email}
+              verifyCode={verifyCode}
+              isCodeSent={isCodeSent}
+              onChangeEmail={onChangeEmail}
+              onChangeVerifyCode={onChangeVerifyCode}
+              handleVerificationAction={handleVerificationAction}
+              errorMessage={errorMessage}
+            />
           ) : (
-            <PasswordStep />
+            <PasswordStep
+              password={password}
+              passwordConfirm={passwordConfirm}
+              onChangePassword={setPassword}
+              onChangePasswordConfirm={setPasswordConfirm}
+              handleSignUpAction={handleSignUpAction}
+            />
           )}
         </div>
       </div>
