@@ -8,13 +8,13 @@ import {
 
 type MyPaginationItemsProps = {
   currentPage: number;
-  onChangeCurrentPage: (page: number) => void;
+  onCurrentPageChange: (page: number) => void;
   totalPages: number;
 };
 
 const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
   currentPage,
-  onChangeCurrentPage,
+  onCurrentPageChange,
   totalPages,
 }) => {
   if (totalPages <= 6) {
@@ -25,7 +25,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
           <PaginationItem key={page}>
             <PaginationLink
               isActive={page === currentPage}
-              onClick={() => onChangeCurrentPage(page)}
+              onClick={() => onCurrentPageChange(page)}
             >
               {page}
             </PaginationLink>
@@ -41,7 +41,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
           <PaginationItem key={page}>
             <PaginationLink
               isActive={page === currentPage}
-              onClick={() => onChangeCurrentPage(page)}
+              onClick={() => onCurrentPageChange(page)}
             >
               {page}
             </PaginationLink>
@@ -51,7 +51,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
           <PaginationEllipsis />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink onClick={() => onChangeCurrentPage(totalPages)}>
+          <PaginationLink onClick={() => onCurrentPageChange(totalPages)}>
             {totalPages}
           </PaginationLink>
         </PaginationItem>
@@ -61,7 +61,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
     // 현재 페이지가 뒤쪽에 있을 때: 1 ... 뒤에서 5개
     return (
       <>
-        <PaginationItem onClick={() => onChangeCurrentPage(1)}>
+        <PaginationItem onClick={() => onCurrentPageChange(1)}>
           <PaginationLink>1</PaginationLink>
         </PaginationItem>
         <PaginationItem>
@@ -71,7 +71,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
           <PaginationItem key={page}>
             <PaginationLink
               isActive={page === currentPage}
-              onClick={() => onChangeCurrentPage(page)}
+              onClick={() => onCurrentPageChange(page)}
             >
               {page}
             </PaginationLink>
@@ -83,7 +83,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
   // 현재 페이지가 중간에 있을 때: 1 ... 현재-1, 현재, 현재+1 ... 마지막
   return (
     <>
-      <PaginationItem onClick={() => onChangeCurrentPage(1)}>
+      <PaginationItem onClick={() => onCurrentPageChange(1)}>
         <PaginationLink>1</PaginationLink>
       </PaginationItem>
       <PaginationItem>
@@ -93,7 +93,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
         <PaginationItem key={page}>
           <PaginationLink
             isActive={page === currentPage}
-            onClick={() => onChangeCurrentPage(page)}
+            onClick={() => onCurrentPageChange(page)}
           >
             {page}
           </PaginationLink>
@@ -103,7 +103,7 @@ const MyPaginationLinkItems: FC<MyPaginationItemsProps> = ({
         <PaginationEllipsis />
       </PaginationItem>
       <PaginationItem>
-        <PaginationLink onClick={() => onChangeCurrentPage(totalPages)}>
+        <PaginationLink onClick={() => onCurrentPageChange(totalPages)}>
           {totalPages}
         </PaginationLink>
       </PaginationItem>

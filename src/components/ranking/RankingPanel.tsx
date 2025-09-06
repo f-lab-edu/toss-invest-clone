@@ -220,7 +220,7 @@ const RankingPanel: FC = () => {
           <RankingPeriodTabs
             selectedRankingPeriod={selectedRankingPeriod}
             rankingPeriods={rankingPeriods}
-            onChangeRankingPeriod={setSelectedRankingPeriod}
+            onRankingPeriodChange={setSelectedRankingPeriod}
           />
         </div>
 
@@ -231,7 +231,7 @@ const RankingPanel: FC = () => {
         <div className="pt-4">
           <MyPagination
             currentPage={currentPage}
-            onChangeCurrentPage={setCurrentPage}
+            onCurrentPageChange={setCurrentPage}
           />
         </div>
       </section>

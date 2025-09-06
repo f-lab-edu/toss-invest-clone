@@ -10,13 +10,13 @@ import MyPaginationLinkItems from "@/components/pagination/MyPaginationLinkItems
 
 type MyPaginationProps = {
   currentPage: number;
-  onChangeCurrentPage: (page: number) => void;
+  onCurrentPageChange: (page: number) => void;
   totalPages?: number;
 };
 
 const MyPagination: FC<MyPaginationProps> = ({
   currentPage,
-  onChangeCurrentPage,
+  onCurrentPageChange,
   totalPages = 10,
 }) => {
   return (
@@ -24,13 +24,13 @@ const MyPagination: FC<MyPaginationProps> = ({
       <PaginationContent>
         <MyPaginationLinkItems
           currentPage={currentPage}
-          onChangeCurrentPage={onChangeCurrentPage}
+          onCurrentPageChange={onCurrentPageChange}
           totalPages={totalPages}
         />
         {totalPages > 1 && (
           <>
             <PaginationItem
-              onClick={() => onChangeCurrentPage(currentPage - 1)}
+              onClick={() => onCurrentPageChange(currentPage - 1)}
             >
               <PaginationPrevious
                 className={`${
@@ -40,7 +40,7 @@ const MyPagination: FC<MyPaginationProps> = ({
               />
             </PaginationItem>
             <PaginationItem
-              onClick={() => onChangeCurrentPage(currentPage + 1)}
+              onClick={() => onCurrentPageChange(currentPage + 1)}
             >
               <PaginationNext
                 className={`${

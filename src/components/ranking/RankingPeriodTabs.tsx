@@ -5,7 +5,7 @@ import type { Period } from "@/types/ranking.ts";
 type RankingPeriodTabsProps = {
   selectedRankingPeriod: Period;
   rankingPeriods: Period[];
-  onChangeRankingPeriod: (period: Period) => void;
+  onRankingPeriodChange: (period: Period) => void;
 };
 
 const getPeriodText = (period: Period) => {
@@ -30,12 +30,12 @@ const getPeriodText = (period: Period) => {
 const RankingPeriodTabs: FC<RankingPeriodTabsProps> = ({
   selectedRankingPeriod,
   rankingPeriods,
-  onChangeRankingPeriod,
+  onRankingPeriodChange,
 }) => {
   return (
     <Tabs
       value={selectedRankingPeriod}
-      onValueChange={(value: string) => onChangeRankingPeriod(value as Period)}
+      onValueChange={(value: string) => onRankingPeriodChange(value as Period)}
     >
       <TabsList>
         {rankingPeriods.map((period) => (
