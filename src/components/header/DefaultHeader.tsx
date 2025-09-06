@@ -1,8 +1,11 @@
-import { type FC, useState } from "react";
-import { Button } from "@/components/ui/button.tsx";
+import { Button } from "@/components/ui/button";
+import { type FC } from "react";
+import { NavLink, useLocation } from "react-router";
+import { useAuth } from "@/hooks/useAuth.ts";
 
 const DefaultHeader: FC = () => {
-  const [isLogin] = useState(false);
+  const { isLogin, isAuthReady } = useAuth();
+  const location = useLocation();
   return (
     <>
       <div className="flex-1">
@@ -13,11 +16,16 @@ const DefaultHeader: FC = () => {
         </ul>
       </div>
       <div>
-        {isLogin ? (
-          <Button variant="default" size="sm">
-            로그인
-          </Button>
-        ) : (
+        {!isLogin && isAuthReady && (
+          <NavLink
+            to={`/signin?redirect=${encodeURIComponent(location.pathname)}`}
+          >
+            <Button variant="default" size="sm">
+              로그인
+            </Button>
+          </NavLink>
+        )}
+        {isLogin && isAuthReady && (
           <img
             className="rounded-md"
             src="/src/assets/profile.webp"
