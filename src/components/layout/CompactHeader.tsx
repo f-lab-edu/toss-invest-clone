@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
 const CompactHeader: FC = () => {
-  return <div></div>;
+  return null;
 };
 
 export default CompactHeader;
