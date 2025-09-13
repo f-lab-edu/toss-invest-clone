@@ -17,6 +17,6 @@ supabase login
 
 supabase projects list  // 프로젝트 ID 확인
 
-supabase functions deploy hello-world  // 함수 배포
-supabase functions deploy // 전체 배포
+supabase functions deploy hello-world --import-map functions/deno.json  // 함수 배포
+supabase functions deploy --import-map functions/deno.json // 전체 배포
 ```
