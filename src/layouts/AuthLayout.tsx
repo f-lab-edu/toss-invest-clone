@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Outlet } from "react-router";
-import Header from "@/components/header/Header.tsx";
+import Header from "@/components/layout/Header.tsx";
 
 const AuthLayout: FC = () => {
   return (

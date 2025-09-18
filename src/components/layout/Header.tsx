@@ -1,7 +1,7 @@
 import { type FC } from "react";
-import DefaultHeader from "@/components/header/DefaultHeader.tsx";
-import AuthHeader from "@/components/header/AuthHeader.tsx";
-import CompactHeader from "@/components/header/CompactHeader.tsx";
+import DefaultHeader from "@/components/layout/DefaultHeader.tsx";
+import AuthHeader from "@/components/layout/AuthHeader.tsx";
+import CompactHeader from "@/components/layout/CompactHeader.tsx";
 
 type HeaderProps = {
   variant?: "default" | "compact" | "auth";
