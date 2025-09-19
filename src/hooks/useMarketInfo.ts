@@ -1,19 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchMarketInfo } from "@/apis/market.ts";
-
-type MarketInfo = {
-  startDateTime: Date | null;
-  endDateTime: Date | null;
-  marketName: "프리마켓" | "정규장" | "애프터마켓" | "장 닫힘";
-};
-
-type MarketCalendarRow = {
-  trade_date: string;
-  session_open: string;
-  open_time: string;
-  close_time: string;
-  session_close: string;
-};
+import type { MarketCalendarRow, MarketInfo } from "@/types/market.ts";
 
 export const useMarketInfo = () => {
   const [rowData, setRowData] = useState<MarketCalendarRow | undefined>();
