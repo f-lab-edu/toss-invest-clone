@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 
-export async function fetchMarketInfo(isoDate: string) {
+export const fetchMarketInfo = async (isoDate: string) => {
   const { data, error } = await supabase
     .from("market_calendar")
     .select("trade_date,open_time, close_time, session_open, session_close")
@@ -9,4 +9,4 @@ export async function fetchMarketInfo(isoDate: string) {
 
   if (error) throw error;
   return data;
-}
+};

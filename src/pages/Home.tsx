@@ -3,13 +3,15 @@ import { useMarketInfo } from "@/hooks/useMarketInfo.ts";
 import { cn } from "@/lib/utils.ts";
 
 function Home() {
-  const { marketInfo } = useMarketInfo();
+  const { isMarketInfoLoading, marketInfo } = useMarketInfo();
   const marketOpenBgClass =
     marketInfo?.marketName === "장 닫힘" ? "bg-grey-400" : "bg-green-700";
   const marketOpenTextClass =
     marketInfo?.marketName === "장 닫힘"
       ? "text-grey-opacity-500"
       : "text-grey-opacity-800 font-semibold";
+
+  if (isMarketInfoLoading) return null;
 
   return (
     <div className="w-full py-4 px-[clamp(16px,_calc(10vw_-_112px),_32px)]">

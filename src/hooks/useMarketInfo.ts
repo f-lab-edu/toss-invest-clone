@@ -1,33 +1,23 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { fetchMarketInfo } from "@/apis/market.ts";
-import type { MarketCalendarRow, MarketInfo } from "@/types/market.ts";
+import type { MarketInfo } from "@/types/market.ts";
+import { useQuery } from "@tanstack/react-query";
 
 export const useMarketInfo = () => {
-  const [rowData, setRowData] = useState<MarketCalendarRow | undefined>();
   const isoDate = new Date().toISOString().slice(0, 10);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const result = await fetchMarketInfo(isoDate);
-        setRowData(result);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [isoDate]);
+  const { data: marketInfoData, isLoading } = useQuery({
+    queryKey: ["marketInfo", isoDate],
+    queryFn: () => fetchMarketInfo(isoDate),
+  });
 
   const marketInfo: MarketInfo | undefined = useMemo(() => {
-    if (!rowData) return;
+    if (!marketInfoData) return;
     const isoDateTime = new Date();
-    const session_open = new Date(rowData.session_open);
-    const open_time = new Date(rowData.open_time);
-    const close_time = new Date(rowData.close_time);
-    const session_close = new Date(rowData.session_close);
+    const session_open = new Date(marketInfoData.session_open);
+    const open_time = new Date(marketInfoData.open_time);
+    const close_time = new Date(marketInfoData.close_time);
+    const session_close = new Date(marketInfoData.session_close);
 
     if (isoDateTime < session_open)
       return {
@@ -58,7 +48,7 @@ export const useMarketInfo = () => {
       endDateTime: null,
       marketName: "장 닫힘",
     };
-  }, [rowData]);
+  }, [marketInfoData]);
 
-  return { loading, marketInfo };
+  return { isMarketInfoLoading: isLoading, marketInfo };
 };
