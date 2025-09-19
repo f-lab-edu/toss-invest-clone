@@ -16,18 +16,27 @@ import { formatHHmm, formatMMDD } from "@/lib/utils.ts";
 
 const RankingPanel: FC = () => {
   const navigate = useNavigate();
-  const [updateDateTimeText, setUpdateDateTimeText] = useState("");
   const [searchParams] = useSearchParams();
   const [rankings, setRankings] = useState<RankingItem[]>([]);
-  const [rankingPageItems, setRankingPageItems] = useState<RankingItem[]>([]);
   const liveChart = searchParams.get("liveChart") || "notional";
   const [currentPage, setCurrentPage] = useState(1);
   const [rankingCategory, setRankingCategory] = useState(liveChart as Category);
   const rankingPeriods = PERIODS_BY_CATEGORY[rankingCategory];
-  const [loading, setLoading] = useState(false);
   const [selectedRankingPeriod, setSelectedRankingPeriod] = useState<Period>(
     rankingPeriods[0],
   );
+
+  const updateDateTimeText = useMemo(() => {
+    return rankings[0]
+      ? formatMMDD(new Date(rankings[0]?.updated_at)) +
+          " " +
+          formatHHmm(new Date(rankings[0]?.updated_at))
+      : "";
+  }, [rankings]);
+
+  const rankingPageItems = useMemo(() => {
+    return rankings.slice((currentPage - 1) * 10, currentPage * 10);
+  }, [rankings, currentPage]);
 
   const { rtSymbols } = useStockWebSocket(rankingPageItems);
 
@@ -47,8 +56,6 @@ const RankingPanel: FC = () => {
   );
 
   useEffect(() => {
-    setLoading(false);
-
     const unsubscribe = subscribeRankings(
       rankingCategory,
       selectedRankingPeriod,
@@ -60,25 +67,13 @@ const RankingPanel: FC = () => {
     return unsubscribe;
   }, [rankingCategory, selectedRankingPeriod]);
 
-  useEffect(() => {
-    setRankingPageItems(
-      rankings.slice((currentPage - 1) * 10, currentPage * 10),
-    );
-    setUpdateDateTimeText(
-      rankings[0]
-        ? formatMMDD(new Date(rankings[0]?.updated_at)) +
-            " " +
-            formatHHmm(new Date(rankings[0]?.updated_at))
-        : "",
-    );
-    setLoading(true);
-  }, [rankings, currentPage]);
-
   const handleChangeRankingCategory = (next: Category) => {
     setRankingCategory(next);
     setSelectedRankingPeriod(PERIODS_BY_CATEGORY[next][0]);
     return navigate("?liveChart=" + next, { replace: true });
   };
+
+  if (!rankingPageItems.length) return null;
 
   return (
     <div className="w-full">
@@ -97,7 +92,6 @@ const RankingPanel: FC = () => {
             onChangeRankingCategory={handleChangeRankingCategory}
           />
         </div>
-
         <div className="px-1 pt-2 pb-0.5">
           <RankingPeriodTabs
             selectedRankingPeriod={selectedRankingPeriod}
@@ -105,25 +99,20 @@ const RankingPanel: FC = () => {
             onRankingPeriodChange={setSelectedRankingPeriod}
           />
         </div>
+        <div className="py-2">
+          <RankingTable
+            rankingPeriod={selectedRankingPeriod}
+            rankingCategory={rankingCategory}
+            rankingItems={realTimeRankingItems}
+          />
+        </div>
 
-        {loading && (
-          <>
-            <div className="py-2">
-              <RankingTable
-                rankingPeriod={selectedRankingPeriod}
-                rankingCategory={rankingCategory}
-                rankingItems={realTimeRankingItems}
-              />
-            </div>
-
-            <div className="pt-4">
-              <MyPagination
-                currentPage={currentPage}
-                onCurrentPageChange={setCurrentPage}
-              />
-            </div>
-          </>
-        )}
+        <div className="pt-4">
+          <MyPagination
+            currentPage={currentPage}
+            onCurrentPageChange={setCurrentPage}
+          />
+        </div>
       </section>
     </div>
   );

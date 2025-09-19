@@ -46,13 +46,13 @@ const RankingTable: FC<RankingTableProps> = ({
           {!["pct_up", "pct_down"].includes(rankingCategory) && (
             <TableHead className="text-right col-span-1">등락률</TableHead>
           )}
-          <TableHead className="text-right font-semibold text-blue-500 col-span-1">
+          <TableHead className="text-right font-medium text-blue-500 col-span-1">
             {rankingHeadName}
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {rankingItems.map((stock: RankingItem) => (
+        {rankingItems.map((stock) => (
           <RankingRow key={stock.rank} stock={stock} />
         ))}
       </TableBody>

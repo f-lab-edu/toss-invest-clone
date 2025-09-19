@@ -46,17 +46,18 @@ export const useStockWebSocket = (rankingPageItems: RankingItem[]) => {
     const next = rankingPageItems.map(
       (stockInfo: RankingItem) => stockInfo.symbol,
     );
+
     const prev = prevSymbolsRef.current;
     const added = next.filter((sym: string) => !prev.includes(sym));
     const removed = prev.filter((sym: string) => !next.includes(sym));
 
-    if (removed.length) {
+    if (removed.length > 0) {
       sendJsonMessage({
         action: "unsubscribe",
         trades: removed,
       });
     }
-    if (added.length) {
+    if (added.length > 0) {
       sendJsonMessage({
         action: "subscribe",
         trades: added,
@@ -64,19 +65,8 @@ export const useStockWebSocket = (rankingPageItems: RankingItem[]) => {
     }
 
     prevSymbolsRef.current = next;
+    lastMessages.current = [];
   }, [rankingPageItems, readyState, sendJsonMessage]);
-
-  useEffect(() => {
-    return () => {
-      const cur = prevSymbolsRef.current;
-      if (cur.length && readyState === ReadyState.OPEN) {
-        sendJsonMessage({
-          action: "unsubscribe",
-          trades: cur,
-        });
-      }
-    };
-  }, [readyState, sendJsonMessage]);
 
   useEffect(() => {
     if (!lastJsonMessage) return;
@@ -85,7 +75,12 @@ export const useStockWebSocket = (rankingPageItems: RankingItem[]) => {
       : [lastJsonMessage];
 
     // 소켓 에러일 때 강제 새로고침
-    if (msgs[0].T === "error") window.location.reload();
+    if (msgs[0].T === "error") {
+      window.location.reload();
+    }
+    if (msgs[0].T === "success" && msgs[0].msg === "authenticated") {
+      authedRef.current = true;
+    }
 
     const prevMessages = lastMessages.current;
     lastMessages.current = [...prevMessages, ...msgs];
@@ -96,6 +91,7 @@ export const useStockWebSocket = (rankingPageItems: RankingItem[]) => {
       setRTSymbols((prev) => {
         const next = [...prev];
         const messages = lastMessages.current;
+
         for (const msg of messages) {
           if (msg.T !== "t") continue;
           const sym = msg.S;

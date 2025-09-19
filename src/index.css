@@ -167,7 +167,7 @@
   }
 }
 
-리@keyframes flash-up {
+@keyframes flash-up {
   from { background-color: #ff889050; } /* tailwind red-50 */
   to   { background-color: transparent; }
 }

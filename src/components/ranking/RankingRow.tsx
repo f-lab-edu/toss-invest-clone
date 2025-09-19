@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from "@/components/ui/table.tsx";
 import { cn, commaFormat, getNotionalText } from "@/lib/utils.ts";
-import { type FC, useEffect, useRef, useState } from "react";
+import { type FC, useEffect, useMemo, useRef, useState } from "react";
 import type { RankingItem } from "@/types/ranking.ts";
 
 type RankingRowProps = {
@@ -12,13 +12,13 @@ const ZEBRA_BG = "bg-[#F9FAFB]";
 
 const RankingRow: FC<RankingRowProps> = ({ stock }) => {
   const prevPctRef = useRef<number | null>(null);
+  const [flashClass, setFlashClass] = useState("");
   const stockPrice = stock.rt_price ?? stock.current_price;
   const 등락률 = ((stockPrice - stock.anchor_price) / stock.anchor_price) * 100;
   const fixed = Math.abs(등락률) >= 0.1 ? 1 : 2;
   const numberSign = 등락률 > 0 ? "+" : "";
   const 등락률Text = numberSign + 등락률.toFixed(fixed);
 
-  const [flashClass, setFlashClass] = useState("");
   const changeTextClass = 등락률 > 0 ? "text-red-500" : "text-blue-600";
   const rowClass = cn(ROW_BASE, stock.rank % 2 === 1 && ZEBRA_BG);
   const changeClass = cn(changeTextClass);
@@ -26,13 +26,20 @@ const RankingRow: FC<RankingRowProps> = ({ stock }) => {
     ? "grid grid-cols-4"
     : "grid grid-cols-5";
 
-  useEffect(() => {
+  const 등락률flash = useMemo(() => {
     const prev = prevPctRef.current;
     prevPctRef.current = 등락률;
-    if (prev === null || 등락률 === 0) return;
-    if (prev.toFixed(fixed) === 등락률.toFixed(fixed)) return;
-    setFlashClass(등락률 > 0 ? "flash-up" : "flash-down");
-  }, [등락률]);
+    if (prev === null || 등락률 === 0) return "";
+    if (prev.toFixed(fixed) === 등락률.toFixed(fixed)) return "";
+    return 등락률 > 0 ? "flash-up" : "flash-down";
+  }, [등락률, fixed]);
+
+  useEffect(() => {
+    if (!등락률flash) return;
+    setFlashClass("");
+    const id = requestAnimationFrame(() => setFlashClass(등락률flash));
+    return () => cancelAnimationFrame(id);
+  }, [등락률flash]);
 
   return (
     <TableRow key={stock.rank} className={cn(rowClass, gridCols)}>
@@ -49,20 +56,19 @@ const RankingRow: FC<RankingRowProps> = ({ stock }) => {
         <div
           className={cn(
             flashClass,
-            "py-0.5 rounded-[6px] min-w-[91px] flex justify-end px-2 min-w-[91px] h-7",
+            "py-0.5 rounded-[6px] min-w-[91px] flex justify-end px-1 h-7",
           )}
-          onAnimationEnd={() => setFlashClass("")}
         >
           {등락률Text}%
         </div>
       </TableCell>
       {stock.metric === "notional" && (
-        <TableCell className="justify-end col-span-1">
+        <TableCell className="justify-end col-span-1 px-2">
           {getNotionalText(stock.value)}
         </TableCell>
       )}
       {stock.metric === "volume" && (
-        <TableCell className="justify-end col-span-1">
+        <TableCell className="justify-end col-span-1 px-2">
           {commaFormat(stock.value)}주
         </TableCell>
       )}

@@ -17,7 +17,7 @@ function Home() {
     <div className="w-full py-4 px-[clamp(16px,_calc(10vw_-_112px),_32px)]">
       <div className="min-w-[1100px] max-w-[1280px] mx-auto">
         <section className="flex py-4 px-2">
-          <span className="flex px-2.5 justify-center items-center">
+          <span className="flex pr-2.5 justify-center items-center">
             <div
               className={cn(marketOpenBgClass, "w-1.5 h-1.5 rounded-full")}
             ></div>
