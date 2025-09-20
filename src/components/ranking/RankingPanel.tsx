@@ -79,9 +79,7 @@ const RankingPanel: FC = () => {
     <div className="w-full">
       <section>
         <div className="flex justify-start items-center gap-1.5">
-          <div className="text-[20px] font-semibold text-grey-800 p-2">
-            실시간 차트
-          </div>
+          <div className="text-[20px] font-semibold p-2">실시간 차트</div>
           <span className="text-sm text-grey-500">
             {updateDateTimeText} 기준
           </span>
