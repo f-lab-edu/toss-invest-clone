@@ -12,7 +12,13 @@ export const useMarketInfo = () => {
   });
 
   const marketInfo: MarketInfo | undefined = useMemo(() => {
-    if (!marketInfoData) return;
+    if (!marketInfoData) {
+      return {
+        startDateTime: null,
+        endDateTime: null,
+        marketName: "장 닫힘",
+      };
+    }
     const isoDateTime = new Date();
     const session_open = new Date(marketInfoData.session_open);
     const open_time = new Date(marketInfoData.open_time);

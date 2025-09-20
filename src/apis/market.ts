@@ -5,7 +5,7 @@ export const fetchMarketInfo = async (isoDate: string) => {
     .from("market_calendar")
     .select("trade_date,open_time, close_time, session_open, session_close")
     .eq("trade_date", isoDate)
-    .single();
+    .maybeSingle();
 
   if (error) throw error;
   return data;
