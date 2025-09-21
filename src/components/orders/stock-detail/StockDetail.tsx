@@ -9,7 +9,7 @@ const StockDetail: FC = () => {
   return (
     <div className="flex w-full h-full gap-x-2.5 mb-6">
       <div className="flex flex-col w-full gap-y-2.5">
-        <Card className="w-full border-none p-2 grow">
+        <Card className="w-full border-none p-2 flex-1">
           <StockCandleChart />
         </Card>
         <div className="h-[190px] grid grid-cols-4 gap-x-2.5">

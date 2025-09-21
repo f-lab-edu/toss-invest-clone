@@ -12,7 +12,7 @@ const StockCandleChart: FC = () => {
         selectedChartTF={selectedChartTF}
         onChangeChartTF={setSelectedChartTF}
       />
-      <div className="grow w-full h-full">
+      <div className="flex-1 w-full h-full">
         <TradingViewWidget />
       </div>
     </>

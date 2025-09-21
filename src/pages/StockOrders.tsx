@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router";
 import StockTitle from "@/components/orders/StockTitle.tsx";
-import StockDetailTabs from "@/components/orders/StockDetailTabs.tsx";
+import StockDetailTabs from "@/components/orders/stock-detail/StockDetailTabs.tsx";
 import type { StockDetailTab } from "@/types/orders.ts";
 import { useState } from "react";
-import StockDetail from "@/components/orders/StockDetail.tsx";
+import StockDetail from "@/components/orders/stock-detail/StockDetail.tsx";
 
 function StockOrders() {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ function StockOrders() {
         stockDetailTab={stockDetailTab}
         onChangeStockDetailTab={handleChangeStockDetailTab}
       />
-      <section className="grow mb-6">
+      <section className="flex-1 mb-6">
         {type === "order" && <StockDetail />}
       </section>
     </div>
