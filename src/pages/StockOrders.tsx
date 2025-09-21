@@ -4,6 +4,8 @@ import StockDetailTabs from "@/components/orders/stock-detail/StockDetailTabs.ts
 import type { StockDetailTab } from "@/types/orders.ts";
 import { useState } from "react";
 import StockDetail from "@/components/orders/stock-detail/StockDetail.tsx";
+import StockAnalytics from "@/components/orders/StockAnalytics.tsx";
+import StockNews from "@/components/orders/StockNews.tsx";
 
 function StockOrders() {
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ function StockOrders() {
       />
       <section className="flex-1 mb-6">
         {type === "order" && <StockDetail />}
+        {type === "analytics" && <StockAnalytics />}
+        {type === "news" && <StockNews />}
       </section>
     </div>
   );

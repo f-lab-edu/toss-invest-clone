@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import OrderFormCard from "@/components/orders/OrderFormCard.tsx";
+import OrderFormCard from "@/components/orders/order-form/OrderFormCard.tsx";
 import StockCandleChart from "@/components/orders/stock-detail/StockCandleChart.tsx";
 import StockPricePanel from "@/components/orders/stock-detail/StockPricePanel.tsx";
 import MyStockWidget from "@/components/orders/stock-detail/MyStockWidget.tsx";
