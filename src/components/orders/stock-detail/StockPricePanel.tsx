@@ -13,6 +13,7 @@ const StockPricePanel: FC = () => {
   const [priceStreamMode, setPriceStreamMode] = useState("daily");
   const priceStreams = [
     {
+      id: 1,
       time: "09.19",
       close: "19.63",
       등락률: "4.47",
@@ -60,7 +61,7 @@ const StockPricePanel: FC = () => {
         </TableHeader>
         <TableBody>
           {priceStreams.map((stream) => (
-            <TableRow>
+            <TableRow key={stream.id}>
               <TableCell className="text-sm w-[10%]">{stream.time}</TableCell>
               <TableCell className="text-sm px-2 justify-end w-[10%]">
                 ${stream.close}

@@ -39,7 +39,11 @@ const MySelect: FC<MySelectProps> = ({
         <SelectGroup className="gap-y-1">
           {selectLabel && <SelectLabel>{selectLabel}</SelectLabel>}
           {selectItems.map((item) => (
-            <SelectItem value={item.value} description={item.description}>
+            <SelectItem
+              key={item.value}
+              value={item.value}
+              description={item.description}
+            >
               <div className="font-medium">{item.label}</div>
             </SelectItem>
           ))}
