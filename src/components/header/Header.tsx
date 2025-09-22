@@ -14,7 +14,7 @@ const Header: FC<HeaderProps> = ({
   paddingClass = "px-8",
 }) => {
   return (
-    <header className="max-w-[1856px] w-full h-13 sticky-top-0 flex items-center">
+    <header className="max-w-[1856px] w-full h-13 sticky  top-0 z-1000 flex items-center">
       <nav
         className={cn(
           "min-w-[712px] w-full h-10 mx-auto flex justify-between items-center",

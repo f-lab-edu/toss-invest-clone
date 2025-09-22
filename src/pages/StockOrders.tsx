@@ -23,18 +23,16 @@ function StockOrders() {
   };
 
   return (
-    <div className="flex flex-col h-full min-w-[712px] min-h-[calc(100vh-52px)] mx-5">
+    <main className="flex flex-col min-w-[712px] mx-5 min-h-0">
       <StockTitle symbol={symbol} />
       <StockDetailTabs
         stockDetailTab={stockDetailTab}
         onChangeStockDetailTab={handleChangeStockDetailTab}
       />
-      <section className="flex-1 mb-6">
-        {type === "order" && <StockDetail />}
-        {type === "analytics" && <StockAnalytics />}
-        {type === "news" && <StockNews />}
-      </section>
-    </div>
+      {type === "order" && <StockDetail />}
+      {type === "analytics" && <StockAnalytics />}
+      {type === "news" && <StockNews />}
+    </main>
   );
 }
 

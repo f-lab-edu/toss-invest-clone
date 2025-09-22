@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card.tsx";
 
 const StockDetail: FC = () => {
   return (
-    <div className="flex w-full h-full gap-x-2.5 mb-6">
+    <div className="flex w-full h-full gap-x-2.5">
       <div className="flex flex-col w-full gap-y-2.5">
         <Card className="w-full border-none p-2 flex-1">
           <StockCandleChart />

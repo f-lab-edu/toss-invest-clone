@@ -5,12 +5,10 @@ import SideBar from "@/components/common/SideBar.tsx";
 
 const OrdersLayout: FC = () => {
   return (
-    <div className="flex bg-[#F6F7F9]">
-      <div className="flex flex-col max-w-[1856px] min-w-0 flex-1">
+    <div className="flex bg-[#F6F7F9] min-h-screen overflow-x-hidden">
+      <div className="flex flex-col max-w-[1856px] min-w-0 flex-1 overflow-x-auto">
         <Header paddingClass="px-5" />
-        <main>
-          <Outlet />
-        </main>
+        <Outlet />
       </div>
       <SideBar />
     </div>
