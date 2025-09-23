@@ -59,3 +59,25 @@ export const getPeriodText = (period: Period) => {
       return "1년";
   }
 };
+
+export function calculateChangeRate(
+  current: number,
+  anchor: number,
+): {
+  변화량: number;
+  변화량Text: string;
+  등락률: number;
+  등락률Text: string;
+  fixed: number;
+  changeTextClass: string;
+} {
+  const 변화량 = current - anchor;
+  const 등락률 = (변화량 / anchor) * 100;
+  const fixed = Math.abs(등락률) >= 0.1 ? 1 : 2;
+  const sign = 등락률 > 0 ? "+" : "-";
+  const 등락률Text = `${sign}${Math.abs(등락률).toFixed(fixed)}`;
+  const 변화량Text = `${sign}$${Math.abs(변화량).toFixed(fixed)}`;
+  const changeTextClass = 등락률 > 0 ? "text-red-500" : "text-blue-600";
+
+  return { 변화량, 변화량Text, 등락률, 등락률Text, fixed, changeTextClass };
+}
