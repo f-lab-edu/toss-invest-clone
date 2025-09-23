@@ -1,5 +1,13 @@
 export type StockDetailTab = "order" | "analytics" | "news";
 
+export type SymbolInfo = {
+  symbol: string;
+  name_en: string;
+  name_ko: string;
+  branding_logo_url: string;
+  branding_icon_url: string;
+};
+
 export type ChartTimeFrame =
   | "1m"
   | "3m"
