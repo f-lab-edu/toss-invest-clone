@@ -1,20 +1,9 @@
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { useEffect, useRef, useState } from "react";
 import type { RankingItem } from "@/types/ranking.ts";
+import { type MSGRow, type RTRow, WS_URL } from "@/types/websocket.ts";
 
-const WS_URL = "wss://stream.data.alpaca.markets/v2/delayed_sip";
-type RTRow = { symbol: string; last?: number; size?: number; ts?: string };
-type MSGRow = {
-  S: string;
-  T: string;
-  c: Array<string>;
-  i: number;
-  p: number;
-  s: number;
-  t: string;
-};
-
-export const useStockWebSocket = (rankingPageItems: RankingItem[]) => {
+export const useStockRankingWebSocket = (rankingPageItems: RankingItem[]) => {
   const prevSymbolsRef = useRef<string[]>([]);
   const authedRef = useRef(false);
   const lastMessages = useRef<MSGRow[]>([]);
