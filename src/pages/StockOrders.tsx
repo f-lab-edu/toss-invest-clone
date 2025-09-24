@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import StockTitle from "@/components/orders/StockTitle.tsx";
 import StockDetailTabs from "@/components/orders/stock-detail/StockDetailTabs.tsx";
 import type { StockDetailTab } from "@/types/orders.ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StockDetail from "@/components/orders/stock-detail/StockDetail.tsx";
 import StockAnalytics from "@/components/orders/StockAnalytics.tsx";
 import StockNews from "@/components/orders/StockNews.tsx";
@@ -13,6 +13,8 @@ import {
   fetchSymbolTimeSeries,
 } from "@/apis/symbol.ts";
 import { useStockDetailWebSocket } from "@/hooks/useStockDetailWebSocket.ts";
+import { symbolAtom } from "@/stores/ordersAtom.ts";
+import { useSetAtom } from "jotai";
 
 function StockOrders() {
   const navigate = useNavigate();
@@ -20,9 +22,16 @@ function StockOrders() {
     symbol: string;
     type: StockDetailTab;
   }>();
+
+  const setSymbolAtomValue = useSetAtom(symbolAtom);
   const [stockDetailTab, setStockDetailTab] = useState<StockDetailTab>(
     type ?? "order",
   );
+
+  useEffect(() => {
+    if (!symbol) return;
+    setSymbolAtomValue(symbol);
+  }, [symbol, setSymbolAtomValue]);
 
   const { data: symbolInfo } = useQuery({
     queryKey: ["symbol-info", symbol],
