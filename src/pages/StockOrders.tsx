@@ -7,14 +7,12 @@ import StockDetail from "@/components/orders/stock-detail/StockDetail.tsx";
 import StockAnalytics from "@/components/orders/StockAnalytics.tsx";
 import StockNews from "@/components/orders/StockNews.tsx";
 import { useQuery } from "@tanstack/react-query";
-import {
-  fetchRecentDailyPrice,
-  fetchSymbolInfo,
-  fetchSymbolTimeSeries,
-} from "@/apis/symbol.ts";
+import { fetchRecentDailyPrice, fetchSymbolInfo } from "@/apis/symbol.ts";
 import { useStockDetailWebSocket } from "@/hooks/useStockDetailWebSocket.ts";
 import { symbolAtom } from "@/stores/ordersAtom.ts";
 import { useSetAtom } from "jotai";
+import { useSymbolTimeSeries } from "@/hooks/useSymbolTimeSeries.ts";
+import TickerTapeWidget from "@/components/charts/TickerTapeWidget.tsx";
 
 function StockOrders() {
   const navigate = useNavigate();
@@ -45,11 +43,9 @@ function StockOrders() {
     enabled: !!symbol,
   });
 
-  const { data: symbolTimeSeries } = useQuery({
-    queryKey: ["symbol-time-series", symbol],
-    queryFn: () => fetchSymbolTimeSeries(symbol!),
-    enabled: !!symbol,
-  });
+  const { timeSeriesItems } = useSymbolTimeSeries(symbol!);
+
+  const prevClosePrice = timeSeriesItems[0]?.close;
 
   const { rtSymbolPrice } = useStockDetailWebSocket(
     symbol!,
@@ -62,21 +58,26 @@ function StockOrders() {
   };
 
   return (
-    <main className="flex flex-col min-w-[712px] mx-5 min-h-0">
+    <main className="flex flex-col min-h-[calc(100vh-52px)] mx-5 min-h-0">
       {symbolInfo && (
         <StockTitle
           symbolInfo={symbolInfo}
           currentPrice={rtSymbolPrice ?? symbolPrice?.open}
-          closePrice={symbolTimeSeries?.[0]?.close}
+          closePrice={prevClosePrice}
         />
       )}
       <StockDetailTabs
         stockDetailTab={stockDetailTab}
         onChangeStockDetailTab={handleChangeStockDetailTab}
       />
-      {type === "order" && <StockDetail />}
-      {type === "analytics" && <StockAnalytics />}
-      {type === "news" && <StockNews />}
+      <div className="flex-1">
+        {type === "order" && <StockDetail />}
+        {type === "analytics" && <StockAnalytics />}
+        {type === "news" && <StockNews />}
+      </div>
+      <footer className="sticky right-0 bottom-0 w-full z-10">
+        <TickerTapeWidget />
+      </footer>
     </main>
   );
 }

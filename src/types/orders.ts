@@ -8,6 +8,30 @@ export type SymbolInfo = {
   branding_icon_url: string;
 };
 
+export type Cursor = {
+  lastDate: string;
+};
+
+export type TimeSeriesItem = {
+  symbol: string;
+  datetime: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  notional: number;
+  volume: number;
+};
+
+export type DailyBarItem = {
+  symbol: string;
+  trade_date: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+};
+
 export type ChartTimeFrame =
   | "1"
   | "3"

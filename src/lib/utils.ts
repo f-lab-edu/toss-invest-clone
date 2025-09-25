@@ -14,6 +14,10 @@ export const formatMMDD = (d: Date) => {
   return `${String(d.getMonth() + 1)}월 ${String(d.getDate())}일`;
 };
 
+export const formatMMDDV2 = (d: Date) => {
+  return `${String(d.getMonth() + 1)}.${String(d.getDate())}`;
+};
+
 export const range = (n: number): number[] =>
   n > 0 ? Array.from({ length: n }, (_, i) => i + 1) : [];
 

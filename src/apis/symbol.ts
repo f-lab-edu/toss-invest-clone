@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabaseClient";
+import type { Cursor } from "@/types/orders.ts";
 
 export const fetchSymbolInfo = async (symbol: string) => {
   const { data, error } = await supabase
@@ -29,16 +30,30 @@ export const fetchSymbolInfo = async (symbol: string) => {
   };
 };
 
-export const fetchSymbolTimeSeries = async (symbol: string) => {
-  const { data, error } = await supabase
+export const fetchSymbolTimeSeries = async (
+  symbol: string,
+  cursor: Cursor | null,
+  pageSize: number,
+) => {
+  let query = supabase
     .from("time_series")
-    .select("symbol, datetime, open, high, low, close")
+    .select("symbol, datetime, open, high, low, close, volume, notional")
     .eq("symbol", symbol)
     .order("datetime", { ascending: false })
-    .limit(10);
+    .limit(pageSize);
 
+  if (cursor?.lastDate) {
+    query = query.lt("datetime", cursor?.lastDate);
+  }
+
+  const { data, error } = await query;
   if (error) throw error;
-  return data;
+
+  const nextCursor: Cursor | null = data.length
+    ? { lastDate: data[data.length - 1].datetime }
+    : null;
+
+  return { items: data, nextCursor };
 };
 
 export const fetchRecentDailyPrice = async (symbol: string) => {

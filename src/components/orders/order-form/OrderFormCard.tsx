@@ -26,10 +26,10 @@ const OrderFormCard: FC = () => {
   ];
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div className="text-sm px-1.5 pt-2 pb-3 font-semibold">주문하기</div>
-      <div className="overflow-y-auto">
-        <div className="sticky pb-3">
+      <div className="flex-1 overflow-y-auto">
+        <div className="sticky top-0 pb-3">
           <OrderSideTab
             orderFormType={orderFormType}
             onOrderFormTypeChange={setOrderFormType}
@@ -174,11 +174,12 @@ const OrderFormCard: FC = () => {
               <div className="w-1/2 text-right">$0.00</div>
             </div>
           </div>
-
-          <Button className="sticky bottom-0 w-full bg-red-500">
-            구매 예약하기
-          </Button>
         </div>
+      </div>
+      <div className="shrink-0 pt-2">
+        <Button className="w-full bg-red-500 hover:bg-red-600">
+          구매 예약하기
+        </Button>
       </div>
     </div>
   );
