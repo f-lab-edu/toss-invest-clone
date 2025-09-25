@@ -37,7 +37,7 @@ export const getNotionalText = (value: number) => {
   if (value < 10000000) {
     return commaFormat(Math.round(value));
   } else if (value < 100000000) {
-    return commaFormat(Math.round(value / 1000)) + "만";
+    return commaFormat(Math.round(value / 10000)) + "만";
   } else if (value < 1000000000000) {
     return commaFormat(Math.round(value / 10000000) / 10) + "억";
   } else {
