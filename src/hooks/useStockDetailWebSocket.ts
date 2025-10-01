@@ -1,14 +1,17 @@
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { useEffect, useRef, useState } from "react";
-import { type MSGRow, WS_URL } from "@/types/websocket.ts";
+import { type SocketMsgRow, WS_URL } from "@/types/websocket.ts";
+import { useSetAtom } from "jotai";
+import { realtimeSeriesAtom } from "@/stores/ordersAtom.ts";
 
 export const useStockDetailWebSocket = (
-  symbol: string,
   initialPrice: number,
+  symbol?: string,
 ) => {
   const authedRef = useRef(false);
-  const lastMessages = useRef<MSGRow[]>([]);
+  const lastMessages = useRef<SocketMsgRow[]>([]);
   const [rtSymbolPrice, setRTSymbolPrice] = useState<number>(initialPrice);
+  const setRealtimeSeriesAtom = useSetAtom(realtimeSeriesAtom);
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     WS_URL,
@@ -44,14 +47,18 @@ export const useStockDetailWebSocket = (
     if (msgs[0].T === "success" && msgs[0].msg === "authenticated") {
       authedRef.current = true;
 
+      if (symbol == null) return;
+      setRealtimeSeriesAtom(null);
       sendJsonMessage({
         action: "subscribe",
         trades: [symbol],
       });
     }
 
+    const tradeMessages = msgs.filter((msg) => msg.T === "t");
     const prevMessages = lastMessages.current;
-    lastMessages.current = [...prevMessages, ...msgs];
+    lastMessages.current = [...prevMessages, ...tradeMessages];
+    setRealtimeSeriesAtom([...prevMessages, ...tradeMessages]);
   }, [lastJsonMessage]);
 
   useEffect(() => {

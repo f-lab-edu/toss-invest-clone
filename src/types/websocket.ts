@@ -1,12 +1,13 @@
 export const WS_URL = "wss://stream.data.alpaca.markets/v2/delayed_sip";
 
-export type RTRow = {
+export type RealtimeRow = {
   symbol: string;
   last?: number;
   size?: number;
   ts?: string;
 };
-export type MSGRow = {
+
+export type SocketMsgRow = {
   S: string;
   T: string;
   c: Array<string>;

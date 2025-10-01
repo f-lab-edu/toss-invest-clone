@@ -16,7 +16,7 @@ type StockPricePanelRowProps = {
 
 const GRID_COLS = "[grid-template-columns:10%_10%_12%_16%_16%_12%_12%_12%]";
 const ZEBRA_BG = "bg-[#F9FAFB]";
-const StockPricePanelRow: FC<StockPricePanelRowProps> = ({
+const DailyPriceTableRow: FC<StockPricePanelRowProps> = ({
   timeSeries,
   tSIdx,
 }) => {
@@ -64,4 +64,4 @@ const StockPricePanelRow: FC<StockPricePanelRowProps> = ({
   );
 };
 
-export default StockPricePanelRow;
+export default DailyPriceTableRow;

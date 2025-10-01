@@ -1,21 +1,19 @@
 import type { FC } from "react";
 import type { SymbolInfo } from "@/types/orders.ts";
 import { calculateChangeRate } from "@/lib/utils.ts";
+import { useAtomValue } from "jotai";
+import { prevClosePriceAtom } from "@/stores/ordersAtom.ts";
 
 type StockTitleProps = {
   symbolInfo: SymbolInfo;
   currentPrice: number;
-  closePrice: number;
 };
 
-const StockTitle: FC<StockTitleProps> = ({
-  symbolInfo,
-  currentPrice,
-  closePrice,
-}) => {
+const StockTitle: FC<StockTitleProps> = ({ symbolInfo, currentPrice }) => {
+  const prevClosePrice = useAtomValue(prevClosePriceAtom);
   const { 변화량Text, 등락률Text, changeTextClass } = calculateChangeRate(
     currentPrice,
-    closePrice,
+    prevClosePrice,
   );
 
   return (

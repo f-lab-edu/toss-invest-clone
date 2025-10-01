@@ -1,13 +1,17 @@
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { useEffect, useRef, useState } from "react";
 import type { RankingItem } from "@/types/ranking.ts";
-import { type MSGRow, type RTRow, WS_URL } from "@/types/websocket.ts";
+import {
+  type SocketMsgRow,
+  type RealtimeRow,
+  WS_URL,
+} from "@/types/websocket.ts";
 
 export const useStockRankingWebSocket = (rankingPageItems: RankingItem[]) => {
   const prevSymbolsRef = useRef<string[]>([]);
   const authedRef = useRef(false);
-  const lastMessages = useRef<MSGRow[]>([]);
-  const [rtSymbols, setRTSymbols] = useState<RTRow[]>([]);
+  const lastMessages = useRef<SocketMsgRow[]>([]);
+  const [rtSymbols, setRTSymbols] = useState<RealtimeRow[]>([]);
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     WS_URL,
@@ -85,7 +89,7 @@ export const useStockRankingWebSocket = (rankingPageItems: RankingItem[]) => {
           if (msg.T !== "t") continue;
           const sym = msg.S;
           const idx = next.findIndex((r) => r.symbol === sym);
-          const upd: RTRow = {
+          const upd: RealtimeRow = {
             symbol: msg.S,
             last: msg.p,
             size: msg.s,

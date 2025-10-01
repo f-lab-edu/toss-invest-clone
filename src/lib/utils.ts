@@ -10,6 +10,10 @@ export const formatHHmm = (d: Date) => {
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 };
 
+export const formatHHmmss = (d: Date) => {
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(d.getSeconds()).padStart(2, "0")}`;
+};
+
 export const formatMMDD = (d: Date) => {
   return `${String(d.getMonth() + 1)}월 ${String(d.getDate())}일`;
 };

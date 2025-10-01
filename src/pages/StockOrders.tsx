@@ -26,44 +26,38 @@ function StockOrders() {
     type ?? "order",
   );
 
-  useEffect(() => {
-    if (!symbol) return;
-    setSymbolAtomValue(symbol);
-  }, [symbol, setSymbolAtomValue]);
-
   const { data: symbolInfo } = useQuery({
     queryKey: ["symbol-info", symbol],
     queryFn: () => fetchSymbolInfo(symbol!),
-    enabled: !!symbol,
+    enabled: symbol != null,
   });
 
   const { data: symbolPrice } = useQuery({
     queryKey: ["symbol-price", symbol],
     queryFn: () => fetchRecentDailyPrice(symbol!),
-    enabled: !!symbol,
+    enabled: symbol != null,
   });
 
-  const { timeSeriesItems } = useSymbolTimeSeries(symbol!);
+  useSymbolTimeSeries(symbol!);
 
-  const prevClosePrice = timeSeriesItems[0]?.close;
+  const { rtSymbolPrice } = useStockDetailWebSocket(symbolPrice?.close, symbol);
 
-  const { rtSymbolPrice } = useStockDetailWebSocket(
-    symbol!,
-    symbolPrice?.close,
-  );
+  useEffect(() => {
+    if (!symbol) return;
+    setSymbolAtomValue(symbol);
+  }, [symbol, setSymbolAtomValue]);
 
   const handleChangeStockDetailTab = (next: StockDetailTab) => {
     setStockDetailTab(next);
-    return navigate(`/stocks/${symbol}/${next}`, { replace: true });
+    navigate(`/stocks/${symbol}/${next}`, { replace: true });
   };
 
   return (
-    <main className="flex flex-col min-h-[calc(100vh-52px)] mx-5 min-h-0">
+    <main className="flex flex-col min-h-[calc(100vh-52px)] mx-5">
       {symbolInfo && (
         <StockTitle
           symbolInfo={symbolInfo}
           currentPrice={rtSymbolPrice ?? symbolPrice?.open}
-          closePrice={prevClosePrice}
         />
       )}
       <StockDetailTabs
