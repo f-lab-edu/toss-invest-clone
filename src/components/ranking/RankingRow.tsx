@@ -5,7 +5,7 @@ import {
   commaFormat,
   getNotionalText,
 } from "@/lib/utils.ts";
-import { type FC, useEffect, useMemo, useRef, useState } from "react";
+import { type FC, useRef } from "react";
 import type { RankingItem } from "@/types/ranking.ts";
 import { useNavigate } from "react-router";
 
@@ -17,36 +17,25 @@ const ROW_BASE = "border-none text-gray-800 cursor-pointer";
 const ZEBRA_BG = "bg-[#F9FAFB]";
 
 const RankingRow: FC<RankingRowProps> = ({ stock }) => {
-  const prevPctRef = useRef<number | null>(null);
+  const prevRef = useRef<number | null>(null);
+  const navigate = useNavigate();
+  const to = `/stocks/${stock.symbol}/order`;
+
   const stockPrice = stock.rt_price ?? stock.current_price;
   const { 등락률, 등락률Text, fixed, changeTextClass } = calculateChangeRate(
     stockPrice,
     stock.anchor_price,
   );
 
-  const navigate = useNavigate();
-  const to = `/stocks/${stock.symbol}/order`;
-  const [flashClass, setFlashClass] = useState("");
+  const prev = prevRef.current;
+  const changed = prev != null && 등락률 !== 0;
+
+  prevRef.current = 등락률;
+
   const rowClass = cn(ROW_BASE, stock.rank % 2 === 1 && ZEBRA_BG);
-  const changeClass = cn(changeTextClass);
   const gridCols = ["pct_up", "pct_down"].includes(stock.metric)
     ? "grid grid-cols-4"
     : "grid grid-cols-5";
-
-  const 등락률flash = useMemo(() => {
-    const prev = prevPctRef.current;
-    prevPctRef.current = 등락률;
-    if (prev === null || 등락률 === 0) return "";
-    if (prev.toFixed(fixed) === 등락률.toFixed(fixed)) return "";
-    return 등락률 > 0 ? "flash-up" : "flash-down";
-  }, [등락률, fixed]);
-
-  useEffect(() => {
-    if (!등락률flash) return;
-    setFlashClass("");
-    const id = requestAnimationFrame(() => setFlashClass(등락률flash));
-    return () => cancelAnimationFrame(id);
-  }, [등락률flash]);
 
   return (
     <TableRow className={cn(rowClass, gridCols)} onClick={() => navigate(to)}>
@@ -61,9 +50,10 @@ const RankingRow: FC<RankingRowProps> = ({ stock }) => {
       </TableCell>
       <TableCell className="justify-end col-span-1">
         <div
+          key={`${stock.symbol}-${등락률.toFixed(fixed)}`}
           className={cn(
-            changeClass,
-            flashClass,
+            changeTextClass,
+            changed ? (등락률 > 0 ? "flash-up" : "flash-down") : "",
             "py-0.5 rounded-[6px] min-w-[91px] flex justify-end px-1 h-7",
           )}
         >

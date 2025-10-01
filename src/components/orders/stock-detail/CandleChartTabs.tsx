@@ -42,9 +42,7 @@ const CandleChartTabs: FC = () => {
               !DAY_TFS.includes(selectedChartTF) && "bg-grey-opacity-100",
             )}
           >
-            <span>
-              {labelChartTimeFrame[selectedMinuteTF as ChartTimeFrame]}
-            </span>
+            <span>{labelChartTimeFrame[selectedMinuteTF]}</span>
             <CaretDownIcon />
           </div>
         </DropdownMenuTrigger>
@@ -60,7 +58,7 @@ const CandleChartTabs: FC = () => {
                     "bg-grey-opacity-100 font-semibold",
                 )}
               >
-                {labelChartTimeFrame[mtf as ChartTimeFrame]}
+                {labelChartTimeFrame[mtf]}
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>
@@ -71,13 +69,13 @@ const CandleChartTabs: FC = () => {
         <button
           key={tf}
           type="button"
-          onClick={() => setSelectedChartTF(tf as ChartTimeFrame)}
+          onClick={() => setSelectedChartTF(tf)}
           className={cn(
             "cursor-pointer py-1.5 px-3 rounded-md hover:bg-grey-opacity-200",
             selectedChartTF === tf && "bg-grey-opacity-100",
           )}
         >
-          {labelChartTimeFrame[tf as ChartTimeFrame]}
+          {labelChartTimeFrame[tf]}
         </button>
       ))}
     </div>
