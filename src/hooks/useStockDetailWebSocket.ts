@@ -58,7 +58,7 @@ export const useStockDetailWebSocket = (
     const tradeMessages = msgs.filter((msg) => msg.T === "t");
     const prevMessages = lastMessages.current;
     lastMessages.current = [...prevMessages, ...tradeMessages];
-    setRealtimeSeriesAtom([...prevMessages, ...tradeMessages]);
+    setRealtimeSeriesAtom([...tradeMessages, ...prevMessages]);
   }, [lastJsonMessage]);
 
   useEffect(() => {
