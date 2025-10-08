@@ -2,6 +2,7 @@ import { NavLink, useNavigate, useSearchParams } from "react-router";
 import SignInForm from "@/components/auth/SignInForm.tsx";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth.ts";
+import { createUserAccount } from "@/apis/user.ts";
 
 function SignIn() {
   const { signIn } = useAuth();
@@ -17,11 +18,20 @@ function SignIn() {
     setErrorMessage("");
     const result = await signIn({ email, password });
 
-    if (result.success) {
-      navigate(redirect || "/", { replace: true });
-    } else {
+    if (!result.success) {
       setErrorMessage("잘못된 정보를 입력했습니다.");
+      return;
     }
+
+    try {
+      await createUserAccount();
+    } catch (e) {
+      console.error(e);
+      setErrorMessage("계좌 생성에 실패했습니다.");
+      return;
+    }
+
+    navigate(redirect || "/", { replace: true });
   };
 
   const onChangeEmail = (email: string) => {
