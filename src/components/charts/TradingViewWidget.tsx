@@ -1,12 +1,17 @@
 // TradingViewWidget.jsx
 import { useEffect, useRef, memo } from "react";
+import { useAtomValue } from "jotai";
+import { selectedChartTFAtom, symbolAtom } from "@/stores/ordersAtom.ts";
 
 function TradingViewWidget() {
   const container = useRef<HTMLDivElement | null>(null);
   const scriptRef = useRef<Element | null>(null);
+  const symbolAtomValue = useAtomValue(symbolAtom);
+  const chartTFAtomValue = useAtomValue(selectedChartTFAtom);
 
   useEffect(() => {
     if (!container.current || scriptRef.current) return;
+    container.current.innerHTML = "";
 
     const script = document.createElement("script");
     script.src =
@@ -23,11 +28,11 @@ function TradingViewWidget() {
           "hide_legend": true,
           "hide_volume": true,
           "hotlist": false,
-          "interval": "D",
+          "interval": "${chartTFAtomValue}",
           "locale": "kr",
           "save_image": false,
           "style": "1",
-          "symbol": "NASDAQ:TSLA",
+          "symbol": "NASDAQ:${symbolAtomValue}",
           "theme": "light",
           "timezone": "Asia/Seoul",
           "backgroundColor": "#ffffff",
@@ -45,7 +50,7 @@ function TradingViewWidget() {
       scriptRef.current?.remove();
       scriptRef.current = null;
     };
-  }, []);
+  }, [symbolAtomValue, chartTFAtomValue]);
 
   return (
     <div

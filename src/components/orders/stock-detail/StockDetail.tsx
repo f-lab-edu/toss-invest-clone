@@ -7,12 +7,12 @@ import { Card } from "@/components/ui/card.tsx";
 
 const StockDetail: FC = () => {
   return (
-    <div className="flex w-full h-full gap-x-2.5">
+    <div className="grid grid-cols-[minmax(0,1fr)_295px] gap-x-2.5 items-stretch min-h-0">
       <div className="flex flex-col w-full gap-y-2.5">
-        <Card className="w-full border-none p-2 flex-1">
+        <Card className="w-full border-none p-2 h-[431px]">
           <StockCandleChart />
         </Card>
-        <div className="h-[190px] grid grid-cols-4 gap-x-2.5">
+        <div className="h-[156px] grid grid-cols-4 gap-x-2.5">
           <Card className="col-span-3 border-none p-2">
             <StockPricePanel />
           </Card>
@@ -21,7 +21,7 @@ const StockDetail: FC = () => {
           </Card>
         </div>
       </div>
-      <Card className="w-[295px] shrink-0 border-none p-2">
+      <Card className="w-[295px] h-[597px] shrink-0 border-none p-2">
         <OrderFormCard />
       </Card>
     </div>

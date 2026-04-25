@@ -12,21 +12,27 @@ const StockDetailTabs: FC<StockDetailTabsProps> = ({
   onChangeStockDetailTab,
 }) => {
   return (
-    <Tabs
-      className="pb-2.5"
-      value={stockDetailTab}
-      onValueChange={(value: string) => {
-        onChangeStockDetailTab(value as StockDetailTab);
-      }}
-    >
+    <Tabs className="pb-2.5" value={stockDetailTab}>
       <TabsList variant="pill">
-        <TabsTrigger variant="pill" value="order">
+        <TabsTrigger
+          variant="pill"
+          value="order"
+          onClick={() => onChangeStockDetailTab("order")}
+        >
           차트 · 호가
         </TabsTrigger>
-        <TabsTrigger variant="pill" value="analytics">
+        <TabsTrigger
+          variant="pill"
+          value="analytics"
+          onClick={() => onChangeStockDetailTab("analytics")}
+        >
           종목정보
         </TabsTrigger>
-        <TabsTrigger variant="pill" value="news">
+        <TabsTrigger
+          variant="pill"
+          value="news"
+          onClick={() => onChangeStockDetailTab("news")}
+        >
           뉴스 · 공시
         </TabsTrigger>
       </TabsList>
