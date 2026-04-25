@@ -25,10 +25,10 @@ const RankingCategoryTabs: FC<RankingCategoryTabsProps> = ({
         <TabsTrigger variant="underline" value="volume">
           거래량
         </TabsTrigger>
-        <TabsTrigger variant="underline" value="gainers">
+        <TabsTrigger variant="underline" value="pct_up">
           급상승
         </TabsTrigger>
-        <TabsTrigger variant="underline" value="losers">
+        <TabsTrigger variant="underline" value="pct_down">
           급하락
         </TabsTrigger>
       </TabsList>

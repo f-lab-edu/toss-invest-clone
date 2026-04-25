@@ -19,6 +19,21 @@ Deno.serve(async () => {
       });
       if (error)
         console.error(`[rankings-updater] ${metric}/${timeframe}`, error);
+
+      try {
+        await supabaseClient.channel(`rankings:${metric}:${timeframe}`).send({
+          type: "broadcast",
+          event: "updated",
+          payload: {
+            event: "updated",
+            metric,
+            timeframe,
+            ts: new Date().toISOString(),
+          },
+        });
+      } catch (broadcastError) {
+        console.error(`[broadcast] ${metric}/${timeframe}`, broadcastError);
+      }
     }
   }
 
