@@ -1,10 +1,12 @@
-import type { RouteObject } from "react-router";
+import { type RouteObject } from "react-router";
 import SignIn from "@/pages/SignIn.tsx";
 import SignUp from "@/pages/SignUp.tsx";
 import Home from "@/pages/Home.tsx";
+import StockOrders from "@/pages/StockOrders.tsx";
 import App from "@/App.tsx";
 import MainLayout from "@/layouts/MainLayout.tsx";
 import AuthLayout from "@/layouts/AuthLayout.tsx";
+import OrdersLayout from "@/layouts/OrdersLayout.tsx";
 
 const routes: RouteObject[] = [
   {
@@ -32,6 +34,16 @@ const routes: RouteObject[] = [
           {
             path: "signup",
             element: <SignUp />,
+          },
+        ],
+      },
+      {
+        path: "/",
+        element: <OrdersLayout />,
+        children: [
+          {
+            path: "stocks/:symbol/:type",
+            element: <StockOrders />,
           },
         ],
       },

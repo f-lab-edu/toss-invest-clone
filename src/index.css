@@ -158,9 +158,16 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+html, body, #root {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 text-grey-800;
   }
   body {
     @apply bg-background text-foreground font-sans;

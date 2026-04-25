@@ -53,7 +53,7 @@ const RankingTable: FC<RankingTableProps> = ({
       </TableHeader>
       <TableBody>
         {rankingItems.map((stock) => (
-          <RankingRow key={stock.rank} stock={stock} />
+          <RankingRow key={stock.symbol} stock={stock} />
         ))}
       </TableBody>
     </Table>

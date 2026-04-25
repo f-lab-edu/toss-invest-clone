@@ -37,7 +37,7 @@ const SideBar: FC = () => {
     <div
       data-open={isOpenSidebar}
       className={cn(
-        "group/sidebar relative z-10 flex h-dvh overflow-hidden",
+        "group/sidebar z-1000 sticky right-0 bottom-0 top-0 flex overflow-hidden",
         isOpenSidebar ? "w-[370px]" : "w-[56px]",
         "transition-[width] duration-200 ease-in-out",
       )}
