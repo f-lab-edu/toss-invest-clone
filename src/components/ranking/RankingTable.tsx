@@ -42,18 +42,20 @@ const RankingTable: FC<RankingTableProps> = ({
       <TableHeader>
         <TableRow className={cn("hover:bg-transparent border-none", gridCols)}>
           <TableHead className="text-left col-span-2">종목</TableHead>
-          <TableHead className="text-right col-span-1">현재가</TableHead>
+          <TableHead className="flex justify-end col-span-1">현재가</TableHead>
           {!["pct_up", "pct_down"].includes(rankingCategory) && (
-            <TableHead className="text-right col-span-1">등락률</TableHead>
+            <TableHead className="flex justify-end col-span-1">
+              등락률
+            </TableHead>
           )}
-          <TableHead className="text-right font-medium text-blue-500 col-span-1">
+          <TableHead className="flex justify-end font-medium text-blue-500 col-span-1">
             {rankingHeadName}
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {rankingItems.map((stock) => (
-          <RankingRow key={stock.rank} stock={stock} />
+          <RankingRow key={stock.symbol} stock={stock} />
         ))}
       </TableBody>
     </Table>

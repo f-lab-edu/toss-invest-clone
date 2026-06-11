@@ -5,7 +5,6 @@
   "singleQuote": true, //문자열에 큰따옴표(") 대신 작은따옴표(') 사용
   "jsxSingleQuote": true, //JSX/TSX 안에서도 작은따옴표 사용
   "semi": true, //모든 문장 끝에 세미콜론(;)을 붙임
-  "trailingComma": "all", //목록의 마지막 요소 뒤에 , 추가
   "arrowParens": "always", //화살표 함수 매개변수에 괄호(()) 항상 붙임
   "quoteProps": "as-needed", //객체 속성에 따옴표를 필요할 때만 씀
   "endOfLine": "lf", //줄바꿈 문자 통일
