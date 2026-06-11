@@ -15,7 +15,7 @@ type SelectItem = {
   description?: string;
 };
 
-type MySelectProps = {
+type SelectTemplateProps = {
   defalutValue: string;
   selectItems: SelectItem[];
   selectLabel?: string;
@@ -23,7 +23,7 @@ type MySelectProps = {
   onChange: (value: string) => void;
 };
 
-const MySelect: FC<MySelectProps> = ({
+const SelectTemplate: FC<SelectTemplateProps> = ({
   defalutValue,
   selectItems,
   placeHolder,
@@ -53,4 +53,4 @@ const MySelect: FC<MySelectProps> = ({
   );
 };
 
-export default MySelect;
+export default SelectTemplate;

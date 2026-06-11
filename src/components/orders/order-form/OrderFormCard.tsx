@@ -1,9 +1,23 @@
 import { type FC, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import MySelect from "@/components/common/MySelect.tsx";
+import SelectTemplate from "@/components/common/SelectTemplate.tsx";
 import PriceInput from "@/components/orders/order-form/PriceInput.tsx";
 import OrderSideTab from "@/components/orders/order-form/OrderSideTab.tsx";
+
+const ORDER_TYPES = [
+  {
+    label: "정규장 주문 예약",
+    value: "regularScheduled",
+    description: "다음 정규장이 시작되면 주문",
+  },
+  { label: "LOC 주문", value: "limitOnClose", description: "" },
+  {
+    label: "조건 주문",
+    value: "conditional",
+    description: "지정된 가격이 되면 자동으로 주문",
+  },
+];
 
 const OrderFormCard: FC = () => {
   const [orderFormType, setOrderFormType] = useState("order");
@@ -11,25 +25,12 @@ const OrderFormCard: FC = () => {
   const [direction, setDirection] = useState(19.16);
   const [orderPriceType, setOrderPriceType] = useState("");
   const [orderCount, setOrderCount] = useState(0);
-  const orderTypes = [
-    {
-      label: "정규장 주문 예약",
-      value: "regularScheduled",
-      description: "다음 정규장이 시작되면 주문",
-    },
-    { label: "LOC 주문", value: "limitOnClose", description: "" },
-    {
-      label: "조건 주문",
-      value: "conditional",
-      description: "지정된 가격이 되면 자동으로 주문",
-    },
-  ];
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div className="text-sm px-1.5 pt-2 pb-3 font-semibold">주문하기</div>
-      <div className="overflow-y-auto">
-        <div className="sticky pb-3">
+      <div className="flex-1 overflow-y-auto">
+        <div className="sticky top-0 pb-3">
           <OrderSideTab
             orderFormType={orderFormType}
             onOrderFormTypeChange={setOrderFormType}
@@ -41,11 +42,11 @@ const OrderFormCard: FC = () => {
           <div className="flex pr-1 pl-2 gap-x-2 items-center justify-between">
             <div className="w-[60px] shrink-0">주문 유형</div>
             <div className="flex-1">
-              <MySelect
+              <SelectTemplate
                 defalutValue={orderType}
-                selectItems={orderTypes}
+                selectItems={ORDER_TYPES}
                 onChange={setOrderType}
-              ></MySelect>
+              />
             </div>
           </div>
 
@@ -174,11 +175,12 @@ const OrderFormCard: FC = () => {
               <div className="w-1/2 text-right">$0.00</div>
             </div>
           </div>
-
-          <Button className="sticky bottom-0 w-full bg-red-500">
-            구매 예약하기
-          </Button>
         </div>
+      </div>
+      <div className="shrink-0 pt-2">
+        <Button className="w-full bg-red-500 hover:bg-red-600">
+          구매 예약하기
+        </Button>
       </div>
     </div>
   );

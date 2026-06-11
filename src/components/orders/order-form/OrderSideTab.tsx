@@ -11,12 +11,7 @@ const OrderSideTab: FC<OrderSideTabProps> = ({
   onOrderFormTypeChange,
 }) => {
   return (
-    <Tabs
-      value={orderFormType}
-      onValueChange={(value: string) => {
-        onOrderFormTypeChange(value);
-      }}
-    >
+    <Tabs value={orderFormType} onValueChange={onOrderFormTypeChange}>
       <TabsList className="w-full text-sm">
         <TabsTrigger
           className="w-full data-[state=active]:text-red-500"

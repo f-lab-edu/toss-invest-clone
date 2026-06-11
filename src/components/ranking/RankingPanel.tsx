@@ -11,7 +11,7 @@ import RankingTable from "@/components/ranking/RankingTable.tsx";
 import MyPagination from "@/components/pagination/MyPagination.tsx";
 import { useNavigate, useSearchParams } from "react-router";
 import { subscribeRankings } from "@/apis/ranking.ts";
-import { useStockWebSocket } from "@/hooks/useStockWebSocket.ts";
+import { useStockRankingWebSocket } from "@/hooks/useStockRankingWebSocket.ts";
 import { formatHHmm, formatMMDD } from "@/lib/utils.ts";
 
 const RankingPanel: FC = () => {
@@ -26,19 +26,18 @@ const RankingPanel: FC = () => {
     rankingPeriods[0],
   );
 
-  const updateDateTimeText = useMemo(() => {
-    return rankings[0]
-      ? formatMMDD(new Date(rankings[0]?.updated_at)) +
-          " " +
-          formatHHmm(new Date(rankings[0]?.updated_at))
-      : "";
-  }, [rankings]);
+  const updateDateTimeText = rankings[0]
+    ? formatMMDD(new Date(rankings[0]?.updated_at)) +
+      " " +
+      formatHHmm(new Date(rankings[0]?.updated_at))
+    : "";
 
-  const rankingPageItems = useMemo(() => {
-    return rankings.slice((currentPage - 1) * 10, currentPage * 10);
-  }, [rankings, currentPage]);
+  const rankingPageItems = rankings.slice(
+    (currentPage - 1) * 10,
+    currentPage * 10,
+  );
 
-  const { rtSymbols } = useStockWebSocket(rankingPageItems);
+  const { rtSymbols } = useStockRankingWebSocket(rankingPageItems);
 
   const realTimeRankingItems = useMemo(
     () =>
