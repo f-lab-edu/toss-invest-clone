@@ -39,9 +39,8 @@ export const useStockDetailWebSocket = (
       ? lastJsonMessage
       : [lastJsonMessage];
 
-    // 소켓 에러일 때 강제 새로고침
     if (msgs[0].T === "error") {
-      window.location.reload();
+      return;
     }
 
     if (msgs[0].T === "success" && msgs[0].msg === "authenticated") {
