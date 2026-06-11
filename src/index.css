@@ -158,12 +158,44 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+html, body, #root {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 text-grey-800;
   }
   body {
     @apply bg-background text-foreground font-sans;
   }
 }
+
+@keyframes flash-up {
+  from { background-color: #ff889050; } /* tailwind red-50 */
+  to   { background-color: transparent; }
+}
+
+@keyframes flash-down {
+  from { background-color: #64A8FF50; } /* tailwind blue-50 */
+  to   { background-color: transparent; }
+}
+
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-down {
+  0% { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(100%); }
+}
+
+.fade-up { position: relative; animation: fade-up 1s; }
+.fade-down { position: relative; animation: fade-down 1s; }
+.flash-up   { animation: flash-up 1000ms ease-out; }
+.flash-down { animation: flash-down 1000ms ease-out; }
 

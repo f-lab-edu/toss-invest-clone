@@ -20,7 +20,7 @@ const DefaultHeader: FC = () => {
           <NavLink
             to={`/signin?redirect=${encodeURIComponent(location.pathname)}`}
           >
-            <Button variant="default" size="sm">
+            <Button variant="default" size="sm" className="px-3">
               로그인
             </Button>
           </NavLink>

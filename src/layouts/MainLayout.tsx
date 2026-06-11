@@ -5,12 +5,10 @@ import { Outlet } from "react-router";
 
 const MainLayout: FC = () => {
   return (
-    <div className="flex">
+    <div className="flex bg-white min-h-screen w-full">
       <div className="flex flex-col max-w-[1856px] min-w-0 flex-1">
         <Header />
-        <main>
-          <Outlet />
-        </main>
+        <Outlet />
       </div>
       <SideBar />
     </div>
