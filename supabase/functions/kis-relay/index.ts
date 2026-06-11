@@ -2,6 +2,14 @@ const REST = Deno.env.get("KIS_REST_BASE")!;
 const APP  = Deno.env.get("KIS_APP_KEY")!;
 const SEC  = Deno.env.get("KIS_APP_SECRET")!;
 
+type TokenResponse = {
+    access_token?: unknown;
+};
+
+type TradeVolumeRankingResponse = {
+    output2?: unknown;
+};
+
 function jsonResponse(data: unknown, status = 200) {
     return new Response(JSON.stringify(data), {
         status,
@@ -26,12 +34,14 @@ async function postAuthAccessTokenP(): Promise<string> {
         }),
     });
     if (!res.ok) throw new Error(`tokenP ${res.status}: ${await res.text()}`);
-    const j = await res.json().catch(() => ({} as any));
-    if (!j.access_token) throw new Error("No access_token");
-    return j.access_token as string;
+    const data = await res.json().catch((): TokenResponse => ({}));
+    if (typeof data.access_token !== "string") throw new Error("No access_token");
+    return data.access_token;
 }
 
-async function getOverseaStockTradeVolRanking(accessToken: string) {
+async function getOverseaStockTradeVolRanking(
+    accessToken: string,
+): Promise<TradeVolumeRankingResponse> {
     const url = `${REST}/uapi/overseas-stock/v1/ranking/trade-vol?EXCD=NYS&NDAY=1`; // 필요 파라미터만
     const res = await fetch(url, {
         method: "GET",
@@ -45,7 +55,7 @@ async function getOverseaStockTradeVolRanking(accessToken: string) {
         },
     });
     if (!res.ok) throw new Error(`trade-vol ${res.status}: ${await res.text()}`);
-    return await res.json();
+    return (await res.json()) as TradeVolumeRankingResponse;
 }
 
 Deno.serve(async (req) => {
@@ -60,11 +70,10 @@ Deno.serve(async (req) => {
 
     try {
         const token = await postAuthAccessTokenP();// 토큰 발급(1분 제한)
-        console.log("token", token);
 
         const data  = await getOverseaStockTradeVolRanking(token); // 외부 REST 호출
 
-        return j({ ok: true, data: data.output2 });
+        return jsonResponse({ ok: true, data: data.output2 });
     } catch (err) {
         return bad("request failed", 500, String(err));
     }

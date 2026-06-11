@@ -59,7 +59,7 @@ export const useStockDetailWebSocket = (
     const prevMessages = lastMessages.current;
     lastMessages.current = [...prevMessages, ...tradeMessages];
     setRealtimeSeriesAtom([...tradeMessages, ...prevMessages]);
-  }, [lastJsonMessage]);
+  }, [lastJsonMessage, sendJsonMessage, setRealtimeSeriesAtom, symbol]);
 
   useEffect(() => {
     const id = setInterval(() => {
