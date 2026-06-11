@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import { type FC } from "react";
 import { NavLink, useLocation } from "react-router";
 import { useAuth } from "@/hooks/useAuth.ts";

@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import Header from "@/components/layout/Header.tsx";
-import SideBar from "@/components/layout/SideBar.tsx";
+import Header from "@/components/header/Header.tsx";
+import SideBar from "@/components/common/SideBar.tsx";
 import { Outlet } from "react-router";
 
 const MainLayout: FC = () => {
