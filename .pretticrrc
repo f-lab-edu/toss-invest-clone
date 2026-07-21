@@ -1,0 +1,12 @@
+{
+  "printWidth": 100, //한 줄에 허용할 최대 문자 수
+  "tabWidth": 2, //들여쓰기 칸 수 (2칸 공백)
+  "useTabs": false, //들여쓰기에 탭 대신 스페이스 사용
+  "singleQuote": true, //문자열에 큰따옴표(") 대신 작은따옴표(') 사용
+  "jsxSingleQuote": true, //JSX/TSX 안에서도 작은따옴표 사용
+  "semi": true, //모든 문장 끝에 세미콜론(;)을 붙임
+  "arrowParens": "always", //화살표 함수 매개변수에 괄호(()) 항상 붙임
+  "quoteProps": "as-needed", //객체 속성에 따옴표를 필요할 때만 씀
+  "endOfLine": "lf", //줄바꿈 문자 통일
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
